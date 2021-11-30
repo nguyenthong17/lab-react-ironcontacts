@@ -2,19 +2,19 @@ import "./App.css";
 import contacts from './contacts.json'
 import React, {useState} from "react";
 
-function App() {
-  // console.log(contacts.slice(0,5))
-  // const initialValue = () => contacts.slice(0,5)
-  let rest = contacts.slice(5)
+let rest = contacts.slice(5)
 
+function App() {
   const [contactArr, setNewContact] = useState(contacts.slice(0,5))
-  // const first5 = contacts.slice(0,5)
   
   const addRandom = () => {
-    const randomNum =  Math.floor(Math.random()*rest.length)
-    const randomContact = rest[randomNum]
-    rest.splice(randomNum, 1)    
+    if (rest.length !== 0){
+      const randomNum =  Math.floor(Math.random()*rest.length)
+      const randomContact = rest[randomNum]
+      rest.splice(randomNum, 1) 
+      console.log(rest)
     setNewContact(contactArr => [...contactArr, randomContact])
+    } 
   }
 
   const sortName = () => {    
@@ -32,9 +32,8 @@ function App() {
   }
   
   const deleteContact = id => {
-    console.log(id)
-    // return contactArr
-    // setNewContact(()=>[...contactArr])
+    const newArr = contactArr.filter((contact) => id !== contact.id)
+   setNewContact([...newArr])
   }
 
   const list = contactArr.map((contact) => {
@@ -46,7 +45,7 @@ function App() {
         <td>{parseFloat(popularity).toFixed(2)}</td>
         <td>{wonEmmy ? '🏆' : ''}</td>
         <td>{wonOscar ? '✨' : ''}</td>
-        <td><button onClick={deleteContact(id)}>Delete</button></td>
+        <td><button onClick={() => deleteContact(id)}>Delete</button></td>
       </tr>
     )
   })
